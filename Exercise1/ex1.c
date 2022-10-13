@@ -14,24 +14,24 @@ con N grande, gli ultimi (quelli dopo N = 10^-4) non verrano considerati. (Leggi
 #include <stdio.h>
 
 // Somma della serie 1/n^2 partendo da n=1 -> fino a n = N
-float directSum(int N)
+long double directSum(int N)
 {	
-	float sum = 0;
+	long double sum = 0;
 	for (int i = 1; i < N - 1 ; ++i)
 	{
-		sum += 1 / (float)(i*i) ; 
+		sum += 1.0 /  ( (long double)i*(long double)i ) ; 
 	}
 
 	return sum;
 }
 
 // Somma della serie 1/n^2 partendo da n=N -> fino a n = 1
-float inverseSum(int N)
+long double inverseSum(int N)
 {	
-	float sum = 0;
+	long double sum = 0;
 	for (int i = N; i > 0 ; --i)
 	{
-		sum += 1 / (float)(i*i) ; 
+		sum += 1.0 / ( (long double)i*(long double)i ) ; 
 	}
 
 	return sum;
@@ -48,17 +48,18 @@ int main(int argc, char const *argv[])
 		int Np = atoi(argv[2]); //Passo con cui aumento N
 		int Nf = atoi(argv[3]); // N finale da raggiungere
 
-		//printf("[Float, single precision]-Somma diretta da 1 a %d = %f\n", N, directSum(N));
-		//printf("[Float, single precision]-Somma inversa da %d a 1 = %f\n", N, inverseSum(N));
+		//printf("[long double, single precision]-Somma diretta da 1 a %d = %f\n", N, directSum(N));
+		//printf("[long double, single precision]-Somma inversa da %d a 1 = %f\n", N, inverseSum(N));
 
 		FILE *file;
 
 		file = fopen("data.txt", "w");
 		//fprintf(file, "N Diretta Inversa\n");
 
+
 		while(Ni < Nf){
 			
-			fprintf(file, "%d,%f,%f\n", Ni, directSum(Ni), inverseSum(Ni));
+			fprintf(file, "%d,%.100Lf,%.100Lf\n", Ni, directSum(Ni), inverseSum(Ni));
 			Ni+=Np;
 			
 		}
