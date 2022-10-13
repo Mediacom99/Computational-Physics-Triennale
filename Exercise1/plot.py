@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt 
 import numpy as np
 
-
+ 
 
 x = np.genfromtxt("data.txt", delimiter=',',dtype=float, usecols=0)
 y = np.genfromtxt("data.txt", delimiter=',',dtype=float, usecols=1)
@@ -23,11 +23,11 @@ plt.tight_layout() #fai in modo che il grafico si centri bene nella figura
 fig.set_size_inches(30/2.54, 30/2.54)
 
 
-ax.scatter(x,yver)
+ax.scatter(x,yver, s=12, c="purple")
 
-ax.set_xlabel("N [Integer at which the summation stops]")
-ax.set_ylabel("Delta_N = S(N) - pi^2 / 6")
-ax.set_title("Exercise 1 - Direct Summation")
+ax.set_xlabel("N [Integer at which the summation stops] - logscale")
+ax.set_ylabel(r'$ | \Delta N = S(N) - \frac{\pi^2}{6} | $')
+ax.set_title("Exercise 1 - Direct Summation - Single_point_precision")
 ax.set_xscale('log')
 
 #ax.plot(x, yver)
