@@ -4,8 +4,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-/*Idea: all'inizio ho x = phi1 + ephi2, man mano che applico la formula ricorsiva il peso di phi2 
-aumenta al punto da superare phi1, quindi la differenza tra i due cresce esponenzialmente con n */
+
 
 long double chin(int n)
 {
@@ -57,7 +56,7 @@ int main(int argc, char const *argv[])
 	int passo = atoi(argv[1]);
 	int N = atoi(argv[2]);
 	int startPoint = atoi(argv[3]);
-	FILE* file = fopen("data.txt", "w");
+	FILE* file = fopen("dataQuadrupla.txt", "w");
 	int counter = startPoint;
 	long double result;
 	while(counter < N)
