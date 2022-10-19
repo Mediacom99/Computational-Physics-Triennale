@@ -4,12 +4,13 @@
 #include <stdlib.h>
 #include <math.h>
 
+/*Idea: all'inizio ho x = phi1 + ephi2, man mano che applico la formula ricorsiva il peso di phi2 
+aumenta al punto da superare phi1, quindi la differenza tra i due cresce esponenzialmente con n */
 
-
-float chin(int n)
+long double chin(int n)
 {
-	float chimeno = 1;
-	float chin = (sqrt(5.0) - 1) / 2.0;
+	long double chimeno = 1;
+	long double chin = ((sqrt(5.0) - 1) / 2.0) - 0.00000001*((sqrt(5.0) + 1) / 2.0);
 	if(n == 1)
 	{
 		return chin;
@@ -18,7 +19,7 @@ float chin(int n)
 		return 1;
 	}
 	n = n-2; //comodità per sincronizzare con funzione phin
-	float sum = chimeno - chin;
+	long double sum = chimeno - chin;
 
 	for (int i = 0; i < n; ++i)
 	{	
@@ -33,10 +34,10 @@ float chin(int n)
 
 
 //Funzione che calcola phi^n moltiplicandolo n volte per sè stesso
-float phin(int n)
+long double phin(int n)
 {
-	float phi = (sqrt(5.0) - 1) / 2.0;
-	float prod = 1;
+	long double phi = (sqrt(5.0) - 1) / 2.0;
+	long double prod = 1;
 	for (int i = 0; i < n; ++i)
 	{
 		prod*=phi;
@@ -58,9 +59,15 @@ int main(int argc, char const *argv[])
 	int startPoint = atoi(argv[3]);
 	FILE* file = fopen("data.txt", "w");
 	int counter = startPoint;
+	long double result;
 	while(counter < N)
 	{
-		fprintf(file, "%f,%d\n", fabs(chin(counter) - phin(counter)), counter);
+	result = chin(counter) - phin(counter); //Serve per fare valore assoluto in long double
+	if(result < 0)
+	{
+		result = -1*result;
+	}
+		fprintf(file, "%Lf,%d\n", result, counter);
 		counter+=passo;
 	}
 	//printf("%f, %f\n",chin(1), phin(1) );

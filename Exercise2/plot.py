@@ -34,7 +34,7 @@ ax.scatter(x,y, s=12, c="purple")
 
 ax.set_xlabel("n of " + r'$\phi_{1}^n$')
 ax.set_ylabel(r'$\Delta_n = |\chi_n - \phi_{1}^n|$')
-ax.set_title("Esercizio 2, precisione singola")
+ax.set_title("Esercizio 2, precisione quadrupla: "+r'$\chi_{1} = \phi_{1} + \epsilon \phi_{2}$')
 ax.set_xticks(x)
 #ax.set_xscale('log')
 
