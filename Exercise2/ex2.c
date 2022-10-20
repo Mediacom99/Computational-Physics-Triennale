@@ -4,7 +4,14 @@
 #include <stdlib.h>
 #include <math.h>
 
-
+/*Idea della parte 2: epsilon nella quadrupla viene contato perchè ha tanti bit nella mantissa
+mentre nella singola epsilon è troppo piccolo e viene troncato, perciò se paragono l'esponenziale
+in precisione singola con l'esponenziale in precisione quadrupla con epsilon = 10^(-8) allora
+i due esponenziali dovrebbero sovrapporsi perchè la quadrupla simula la singola, mentre se epsilon 
+lo prendo più piccolo allora le due rette si staccano perchè la singola non ci sta più dietro 
+a quella precisione
+DA FARE: metto i grafici per verificare andamento esponenziale
+		 metto i due grafici con epsilon diversi e spiego perchè*/
 
 long double chin(int n)
 {
@@ -48,15 +55,15 @@ long double phin(int n)
 
 int main(int argc, char const *argv[])
 {	
-	if (argc < 4)
+	if (argc < 5)
 	{
-		printf("Utilizzo prog: ./ex2.unx [Passo di N] [N totale da raggiungere] [Starting point]\n");
+		printf("Utilizzo prog: ./ex2.unx [Passo di N] [N totale da raggiungere] [Starting point] [Nome file dei dati]\n");
 		exit(EXIT_FAILURE);
 	}
 	int passo = atoi(argv[1]);
 	int N = atoi(argv[2]);
 	int startPoint = atoi(argv[3]);
-	FILE* file = fopen("dataQuadrupla.txt", "w");
+	FILE* file = fopen(argv[4], "w");
 	int counter = startPoint;
 	long double result;
 	while(counter < N)
