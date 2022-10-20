@@ -8,4 +8,4 @@ Topics of the lectures:
 3. Differential Equations
 4. Zeroes of functions. 
 
-Programming language used: C++
+Programming language used: C for algorithms and Python3 for plotting graphs.
