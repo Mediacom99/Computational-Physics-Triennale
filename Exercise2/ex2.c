@@ -16,7 +16,8 @@ DA FARE: metto i grafici per verificare andamento esponenziale
 long double chin(int n)
 {
 	long double chimeno = 1;
-	long double chin = ((sqrt(5.0) - 1) / 2.0) - 0.00000001*((sqrt(5.0) + 1) / 2.0);
+	//long double chin = ((sqrt(5.0) - 1) / 2.0) - 0.00000001*((sqrt(5.0) + 1) / 2.0);
+	long double chin = ((sqrtl(5.0) - 1) / 2.0);
 	if(n == 1)
 	{
 		return chin;
@@ -76,6 +77,7 @@ int main(int argc, char const *argv[])
 		fprintf(file, "%Lf,%d\n", result, counter);
 		counter+=passo;
 	}
+	printf("epsilon = %Lf\n", ( (0.61803399 -  ((sqrtl(5.0) - 1) / 2.0) )  / ((sqrtl(5.0) + 1) / 2.0) )) ;
 	//printf("%f, %f\n",chin(1), phin(1) );
 	return 0;
 }
