@@ -157,6 +157,8 @@ long double trapezio(int N, long double a, long double b, long double (*func)(lo
 	return result;
 }
 
+/***************************************************************************************/
+
 //INTEGRAZIONE DI SIMPSON
 long double simpson(int N, long double a, long double b, long double (*func)(long double))
 {
@@ -180,6 +182,8 @@ long double simpson(int N, long double a, long double b, long double (*func)(lon
 	result*=(h/3);
 	return result;	
 }
+
+/*****************************************************************************/
 
 long double romberg(int N, long double a, long double b, long double (*func)(long double))
 {
@@ -218,3 +222,7 @@ long double romberg(int N, long double a, long double b, long double (*func)(lon
 	return values[J-1][J-1];
 
 }
+
+/**********************************************************************************************/
+
+//Metodo delle quadrature gaussiane
