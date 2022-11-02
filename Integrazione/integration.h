@@ -134,7 +134,7 @@ long double Le_w48[24] =
 
 /*******************************************************************************************/
 //LAGUERRE [[0,+inf)]
-
+//Punto peso, punto peso, etc.. nel caso 2, poi sono stati divisi in due array diversi
 long double Lag_2[4] = {5.85786437626904951182e-01,    8.53553390593273762191e-01,
           3.41421356237309504876e+00,    1.46446609406726237796e-01};
 long double Lag_4x[4] = {
@@ -347,11 +347,12 @@ long double Lag_64w[64] = {
 1.41411505291761941744e-83,
 1.59183306404136791788e-88,
 2.98948434886063430781e-94,
-2.08906350843695277083e-10};
+2.08906350843695277083e-101};
 
 /********************************************************************************************/
 
 /* HERMITE [-INF, INF]*/
+//Ogni x ha anche -x
 
 long double He_2[2] = {7.07106781186547524382e-01, 8.86226925452758013655e-01};
 
@@ -681,3 +682,198 @@ long double romberg(int N, long double a, long double b, long double (*func)(lon
 /**********************************************************************************************/
 
 //Metodo delle quadrature gaussiane
+
+//Piccola funzione per traslazione in Legendre da [-1,1] ad [a,b]
+long double X(long double a, long double b, long double x)
+{
+	return ((b-a) / 2.0)*x + (b+a) / 2.0;
+}
+
+//Legendre [-1,1]
+
+long double Legendre(int N, long double a, long double b, long double (*func)(long double))
+{	
+	long double result = 0;
+	switch(N)
+	{
+
+		case 1:
+			result+=func(X(a,b,Le_1[0]))*Le_1[1];
+			break;
+		case 2:
+			result += func(X(a,b,Le_2[0])) + func(X(a,b,Le_2[1]));
+			break;
+		case 3:
+			result += func(X(a,b,Le_x3[0]))*Le_w3[0] + func(X(a,b,Le_x3[1]))*Le_w3[1] + func(X(a,b,-Le_x3[1]))*Le_w3[1]; 
+			break;
+		case 4:
+			for (int i = 0; i < 2; ++i)
+			{
+				result+= func(X(a,b,Le_x4[i]))*Le_w4[i] + func(X(a,b,-Le_x4[i]))*Le_w4[i]; 
+			}
+			break;
+		case 8:
+			for (int i = 0; i < 4; ++i)
+			{
+				result+= func(X(a,b,Le_x8[i]))*Le_w8[i] + func(X(a,b,-Le_x8[i]))*Le_w8[i];
+			}
+			break;
+		case 16:
+			for (int i = 0; i < 8; ++i)
+			{
+				result+= func(X(a,b,Le_x16[i]))*Le_w16[i] + func(X(a,b,-Le_x16[i]))*Le_w16[i];
+			}
+			break;
+		case 48:
+			for (int i = 0; i < 24; ++i)
+			{
+				result+= func(X(a,b,Le_x48[i]))*Le_w48[i] + func(X(a,b,-Le_x48[i]))*Le_w48[i];
+			}
+			break;
+		default:
+			printf("ERRORE: numero di punti scelto non valido per integrazione di Legendre\n");
+            printf("Numero di punti validi: 1,2,3,4,8,16,48\n");
+            exit(EXIT_FAILURE);
+
+	}
+
+	return result*(b-a)/(2.0);
+}
+
+/*************************************************************************************************/
+
+//Laguerre [a,+inf]
+//Così da poter integrare da un numero all'infinito
+//RICORDARSI DI TOGLIERE IL PESO ESPONENZIALE DA FUNC
+long double T(long double a, long double x)
+{
+	return (x+a);
+}
+
+long double Laguerre(int N, long double a, long double (*func)(long double))
+{	
+	long double result = 0;
+	switch(N)
+	{
+
+		case 2:
+			result+=func(T(a,Lag_2[0]))*Lag_2[1] + func(T(a,Lag_2[2]))*Lag_2[3];
+			break;
+		case 4:
+			for (int i = 0; i < 4; ++i)
+			{
+				result+=func(T(a,Lag_4x[i]))*Lag_4w[i];
+			}
+			break;
+		case 8:
+			for (int i = 0; i < 8; ++i)
+			{
+				result+=func(T(a,Lag_8x[i]))*Lag_8w[i];
+			}
+			break;
+		case 24:
+			for (int i = 0; i < 24; ++i)
+			{
+				result+=func(T(a,Lag_24x[i]))*Lag_24w[i];
+			}
+			break;
+		case 64:
+			for (int i = 0; i < 64; ++i)
+			{
+				result+=func(T(a,Lag_64x[i]))*Lag_64w[i];
+			}
+			break;
+		default:
+			printf("ERRORE: numero di punti scelto non valido per integrazione di Laguerre\n");
+            printf("Numero di punti validi: 2,4,8,24,64\n");
+            exit(EXIT_FAILURE);
+
+	}
+
+	return result*exp(-a);
+}
+
+/*************************************************************************************************/
+
+//Hermite [-inf, inf]
+//RICORDARSI DI TOGLIERE IL PESO EXP-X^2 DA FUNC
+
+//Funzione per cambio variabile per integrazione [a,inf]
+//ROTTA
+long double cv(long double a, long double t, long double (*func)(long double))
+{
+	return ( func(log(t-a))*exp(-(log(t-a))*(log(t-a))) ) /  ( (exp(-t*t))*(t-a) ) ;
+}
+
+long double Hermite(int N, long double a, long double (*func)(long double))
+{	
+	long double result = 0;
+	switch(N)
+	{
+
+		case 2:
+		{
+			result += func(He_2[0])*He_2[1] + func(-He_2[0])*He_2[1];
+			break;
+		}
+			
+		case 4:
+			for (int i = 0; i < 2; ++i)
+			{
+				result+=func(He_4x[i])*He_4w[i] + func(-He_4x[i])*He_4w[i]; 
+			}
+			break;
+		case 5:
+			for (int i = 1; i < 3; ++i)
+			{
+				result+=func(He_5x[i])*He_5w[i] + func(-He_5x[i])*He_5w[i];	
+			}
+			result+=func(He_5x[0])*He_5w[0];
+			break;
+		case 8:
+			for (int i = 0; i < 4; ++i)
+			{
+				result+=func(He_8x[i])*He_8w[i] + func(-He_8x[i])*He_8w[i];	
+			}
+			break;
+		case 10:
+			for (int i = 0; i < 5; ++i)
+			{
+				result+=func(He_10x[i])*He_10w[i] + func(-He_10x[i])*He_10w[i];
+			}
+			break;
+		case 24:
+		{	
+			for (int i = 0; i < 12; ++i)
+			{
+				result+=func(He_24x[i])*He_24w[i] + func(-He_24x[i])*He_24w[i];
+			}
+			break;
+		}
+		case 48:
+		{
+			for (int i = 0; i < 24; ++i)
+			{
+				result+=func(He_48x[i])*He_48w[i] + func(-He_48x[i])*He_48w[i];
+			}
+			break;
+		}
+		case 100:
+		{
+			for (int i = 0; i < 50; ++i)
+			{
+				result+=func(He_100x[i])*He_100w[i] + func(-He_100x[i])*He_100w[i];
+				//result+=cv(3,He_100x[i],func)*He_100w[i] + cv(3,-He_100x[i],func)*He_100w[i];
+
+			}
+			break;
+		}
+		default:
+			printf("ERRORE: numero di punti scelto non valido per integrazione di Hermite\n");
+            printf("Numero di punti validi: 2,4,5,8,10,24,48,100\n");
+            exit(EXIT_FAILURE);
+
+	}
+
+	return result;
+}
