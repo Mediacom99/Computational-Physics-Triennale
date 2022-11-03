@@ -797,12 +797,16 @@ long double Laguerre(int N, long double a, long double (*func)(long double))
 
 //Hermite [-inf, inf]
 //RICORDARSI DI TOGLIERE IL PESO EXP-X^2 DA FUNC
-
-//Funzione per cambio variabile per integrazione [a,inf]
-//ROTTA
-long double cv(long double a, long double t, long double (*func)(long double))
-{
-	return ( func(log(t-a))*exp(-(log(t-a))*(log(t-a))) ) /  ( (exp(-t*t))*(t-a) ) ;
+//Per esercizio 6 (traslo la funzione così che asse sta in x=3, poi copio la parte di funzione
+// da 3 a inf e la risbatto a sinistra in modo da renderla simmetrica rispetto all'asse y (pari)
+// così poi integro tra -inf e inf e divido a metà e trovo il mio integrale)
+//Puoi usare la funzione qua sotto per usare hermite su integrali su [a, inf]
+long double aInfH(long double a, long double t, long double (*func)(long double))
+{	
+	long double value = func(t+a)*exp(-(a*a + 2*a*t)); //Proviene dalla traslazione
+	if(t>=0){return value;}
+	else if(t<0){return -value;} //Questa parte copia la parte di funzione che mi interessa e la simmetrizza
+	else return 0;
 }
 
 long double Hermite(int N, long double a, long double (*func)(long double))
@@ -862,9 +866,8 @@ long double Hermite(int N, long double a, long double (*func)(long double))
 		{
 			for (int i = 0; i < 50; ++i)
 			{
-				result+=func(He_100x[i])*He_100w[i] + func(-He_100x[i])*He_100w[i];
-				//result+=cv(3,He_100x[i],func)*He_100w[i] + cv(3,-He_100x[i],func)*He_100w[i];
-
+				//result+=func(He_100x[i])*He_100w[i] + func(-He_100x[i])*He_100w[i];
+				result+=aInfH(a, He_100x[i],func)*He_100w[i] + aInfH(a,-He_100x[i],func)*He_100w[i];
 			}
 			break;
 		}
@@ -875,5 +878,87 @@ long double Hermite(int N, long double a, long double (*func)(long double))
 
 	}
 
+	return result;
+}
+
+/*************************************************************************************/
+//Integrazione stocastica
+/*************************************************************************************/
+
+
+//Generatore numeri casuali tra a e b
+long double uniformRandom(long double a, long double b)
+{
+	return a + (b - a) * rand () / (long double) (RAND_MAX) ;
+}
+
+//Metodo di monte carlo (trapezio+distribuzione uniforme)
+long double monteCarlo(int N, long double a, long double b, long double (*func)(long double))
+{
+
+	//Prima genera N numeri casuali distribuiti uniformemente tra a e b
+	//Usa quei numeri per implementare il trapezio
+	long double h = (b-a) / (long double)(N) ;
+	long double result = 0.0;
+	int counter = 0;
+	while(counter < N){
+	
+		result+=func(uniformRandom(a,b));
+		counter++;
+	}
+	result*=h;
+
+	return result;
+	
+	
+}
+
+
+//Variante Monte Caro hit or miss
+long double hit_or_miss(int N, long double a, long double b, long double(*func)(long double))
+{
+	int n_hit = 0;
+	long double result = 0;
+	long double x = 0;
+	long double y = 0;
+	for (int i = 0; i < N; ++i)
+	{
+		//genera 2 numeri (x,y) random tra a e b
+		x = uniformRandom(a,b);
+		y = uniformRandom(a,b);
+		if(y<=func(x)){n_hit++;} //se y è una ordinata accettabile allora ho un hit, altrimenti un miss
+	}
+	result = (long double)(n_hit) / (long double)(N) ; //percentuale dell'area
+	result*=(b-a)*(b-a); //area o volume di cui prendo la percentuale calcolata prima
+	return result;
+}
+
+/************* IMPORTANCE SAMPLING **********************************************/
+//La pdf da usare va scelta in base alla funzione da integrare
+//Esempio I delle note
+//pdf = pdf scelta, inversecumulative = inversa della primitiva della pdf, func = funzione iniziale
+// da integrare
+long double pdf(long double x)
+{	
+	//Qui scelgo la pdf da usare, di cui poi calcolerò la primitiva inversa
+	return (1 / (1- exp(-2)) )*exp(-x);
+}
+long double inverseCumulative(long double x)
+{	
+	//Qui metto la cumulativa inversa
+	long double a = 1 / (1-exp(-2)); //normalizzazione
+	return -log(a - x);
+}
+
+long double importanceSampling(int N, long double (*func)(long double))
+{	
+	long double result = 0;
+	long double z = 0;
+	for (int i = 0; i < N; ++i)
+	{	
+		z = uniformRandom(0,1);
+		result+= func(inverseCumulative(z)) / pdf(inverseCumulative(z));
+	}
+	result*= 1 / (long double)N;
 	return result;
 }

@@ -13,13 +13,14 @@ Cosa fare?
 long double func(long double x)
 {
 	//return pow(x,7)*exp(-x);
-	return pow(x,5)*exp(-x*x + x);
+	//return pow(x,2);
+	return exp(-x*x);
 	
 }
 
 int main(int argc, char const *argv[])
 {
-		printf("Metodi di integrazione:\nTrapezio = 1\nSimpson = 2\nRomberg = 3\nLegendre = 4\nLaguerre = 5\nHermite = 6\n");
+		printf("Metodi di integrazione:\nTrapezio = 1\nSimpson = 2\nRomberg = 3\nLegendre = 4\nLaguerre = 5\nHermite = 6\nMonte Carlo = 7\nHit or Miss = 8\nImportance Sampling = 9\n");
 		printf("NOTA BENE: per romberg indicare nella posizione del numero di punti il numero di suddivisioni da fare, cioè 2^(J), indicare J\n");
 		printf("\n\n\nNumero punti disponibili:\n");
 		printf("Legendre: 1,2,3,4,8,16,48\n");
@@ -66,7 +67,20 @@ int main(int argc, char const *argv[])
 	else if (method == 6)
 	{
 		//RICORDA DI TOGLIERE IL PESO E^-X2 DALLA FUNZIONE FUNC
-		printf("\n\nMetodo di Gauss, Hermite, risultato: %.20Lf\n", Hermite(N,3,func));
+		printf("\n\nMetodo di Gauss, Hermite, risultato: %.20Lf\n", Hermite(N,0,func)/2);
+	}
+	else if (method == 7)
+	{
+		printf("\n\nMetodo Monte Carlo, risultato: %.20Lf\n", monteCarlo(N,0,1,func));
+	}
+	else if (method == 8)
+	{
+		printf("\n\nMetodo Hit or Miss, risultato: %.20Lf\n", hit_or_miss(N,0,1,func));
+	}
+	else if (method == 9)
+	{
+		printf("NOTA BENE: assicurarsi di aver cambiato la pdf e la cumulativa!\n");
+		printf("\n\nMetodo Importance Sampling, risultato: %.20Lf\n", importanceSampling(N,func));
 	}
 	else
 	{
