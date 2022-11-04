@@ -18,7 +18,7 @@ void printMatrix(int dim, long double** matrix)
 	return;
 }
 
-void printTableRomber(int J, long double** values)
+void printTableRomberg(int J, long double** values)
 {
 
 	for (int k = 0; k < J; ++k)
@@ -673,7 +673,7 @@ long double romberg(int N, long double a, long double b, long double (*func)(lon
 	}
 
 	//printMatrix(J,values);
-	printTableRomber(J,values);
+	printTableRomberg(J,values);
 	free(values);
 	return values[J-1][J-1];
 
