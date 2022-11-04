@@ -22,7 +22,8 @@ int main(int argc, char const *argv[])
 {
 		printf("Metodi di integrazione:\nTrapezio = 1\nSimpson = 2\nRomberg = 3\nLegendre = 4\nLaguerre = 5\nHermite = 6\nMonte Carlo = 7\nHit or Miss = 8\nImportance Sampling = 9\n");
 		printf("NOTA BENE: per romberg indicare nella posizione del numero di punti il numero di suddivisioni da fare, cioè 2^(J), indicare J\n");
-		printf("\n\n\nNumero punti disponibili:\n");
+		printf("/*******************************************************************************************************************/\n");
+		printf("Numero punti disponibili per quadratura di Gauss:\n");
 		printf("Legendre: 1,2,3,4,8,16,48\n");
 		printf("Laguerre: 2,4,8,24,64\n");
 		printf("Hermite: 2,4,5,8,10,24,48,100\n");
@@ -34,6 +35,8 @@ int main(int argc, char const *argv[])
 	}
 	int N = atoi(argv[1]); //Numero di punti su cui dividere l'intervallo e integrare
 	int method = atoi(argv[2]);
+
+	printf("/*******************************************************************************************************************/\n\n\n");
 
 	if(method!=3)
 	{
@@ -53,7 +56,7 @@ int main(int argc, char const *argv[])
 	else if(method == 3)
 	{	
 		//printf("Numero punti utilizzati: %d\n", (int)(pow(2,N)+1));
-		printf("\n\nMetodo di romberg, risultato: %.20Lf\n", romberg(N,0,5,func));
+		printf("\n\nMetodo di Romberg, risultato: %.20Lf\n", romberg(N,0,5,func));
 	}
 	else if(method==4)
 	{

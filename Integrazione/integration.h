@@ -18,13 +18,13 @@ void printMatrix(int dim, long double** matrix)
 	return;
 }
 
-void printTableRomberg(int J, long double** values)
+void printTableRomberg(int N, long double** values)
 {
 
-	for (int k = 0; k < J; ++k)
+	for (int k = 0; k < N; ++k)
 	{
 		printf("K = %d:\n",k);
-			for (int j = 0; j < J; ++j)
+			for (int j = 0; j < N; ++j)
 			{
 				printf("R[%d][%d] = %Lf | ",k,j,values[k][j]);	
 			}
@@ -644,19 +644,19 @@ long double simpson(int N, long double a, long double b, long double (*func)(lon
 long double romberg(int N, long double a, long double b, long double (*func)(long double))
 {
 
-	//int J = floor(log2(N-1)); //numero di ripetizioni
-	int J = N; //IN questo caso N è il numero di suddivisioni da fare
-	long double** values = (long double**)malloc(J*sizeof(long double*));
-	for (int i = 0; i < J; ++i)
+	//int J = floor(log2(N-1)); 
+	//N in questo caso è il numero di suddivisioni in intervalli da fare
+	long double** values = (long double**)malloc(N*sizeof(long double*));
+	for (int i = 0; i < N; ++i)
 	{
-		values[i] = (long double*)malloc(J*sizeof(long double));
+		values[i] = (long double*)malloc(N*sizeof(long double));
 	}
 	
 
 
 	//collezione dei risultati del trapezio
 	//Riempio valuesT con i valori dei trapezi
-	for (int i = 0; i < J; ++i)
+	for (int i = 0; i < N; ++i)
 	{
 		values[i][0] = trapezio((int)(pow(2,i)+1),a,b,func); 
 		//printf("Valore a %d = %Lf\n",i,values[i][0]);
@@ -664,7 +664,7 @@ long double romberg(int N, long double a, long double b, long double (*func)(lon
 
 	
 	//Array con tutti i valori ricorsivi successivi
-	for (int k = 1; k < J; ++k)
+	for (int k = 1; k < N; ++k)
 	{
 		for (int j = 1; j <= k; ++j) //OCCHIO
 		{
@@ -672,10 +672,10 @@ long double romberg(int N, long double a, long double b, long double (*func)(lon
 		}
 	}
 
-	//printMatrix(J,values);
-	printTableRomberg(J,values);
+	//printMatrix(N,values);
+	printTableRomberg(N,values);
 	free(values);
-	return values[J-1][J-1];
+	return values[N-1][N-1];
 
 }
 
