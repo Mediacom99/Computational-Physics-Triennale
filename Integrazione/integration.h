@@ -644,7 +644,7 @@ long double simpson(int N, long double a, long double b, long double (*func)(lon
 long double romberg(int N, long double a, long double b, long double (*func)(long double))
 {
 
-	//int J = floor(log2(N-1)); 
+	//int J = floor(log2(N-1)); 	
 	//N in questo caso è il numero di suddivisioni in intervalli da fare
 	long double** values = (long double**)malloc(N*sizeof(long double*));
 	for (int i = 0; i < N; ++i)
