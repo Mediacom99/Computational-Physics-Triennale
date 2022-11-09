@@ -599,15 +599,12 @@ long double trapezio(int N, long double a, long double b, long double (*func)(lo
 
 	long double h = (b-a) / (long double)(N-1) ;
 	long double result = 0.0;
-	result += func(a)*0.5; //aggiungo 1/2 f(a)
-	long double point = a+h;
-	while(point < b){
-	
-		result+=func(point);
-		point+=h;
-		//printf("%Lf\n",point);
+	result += 0.5*(func(a) + func(b)); //aggiungo 1/2 f(a)
+
+	for (int i = 1; i < N-1; i++)
+	{
+		result+= func(a + (long double)i*h);
 	}
-	result+= func(b)*0.5; //aggiungo 1/2 f(b)
 	result*=h;
 
 	return result;
@@ -615,28 +612,39 @@ long double trapezio(int N, long double a, long double b, long double (*func)(lo
 
 /***************************************************************************************/
 
+//COMPLETAMENTE ROTTO
 //INTEGRAZIONE DI SIMPSON
+//SIMPSON FUNZIONA SOLO CON NUMERO DI PUNTI MULTIPLI DI 3
 long double simpson(int N, long double a, long double b, long double (*func)(long double))
-{
+{	
+	if(N%3 != 0)
+	{	
+		printf("Simpson funziona solo con numero di punti multiplo di 3\n");
+		exit(EXIT_FAILURE);
+	}
+
 	long double h = (b-a) / (long double)(N-1) ;
 	long double result = 0.0;
-	result+= func(a);
-	long double point = a+h;
-	for (int i = 2; i <= N-2; ++i)
-	{
-		if(i%2 == 0) //se siamo al passo pari moltiplica per 4, altrimenti per 2
+	result+= func(a) + func(b); //Aggiungo primo e ultimo punto
+	//Aggiungo gli elementi con fattore 2
+	for (int i = 2; i < N; i++)
+	{	
+		if(i%2 == 0)
 		{
-			result+=4*func(point);
+			result+= 4*func(a+i*h);
 		}
-		else
-		{
-			result+=2*func(point);
-		}
-		point+=h;
+		//printf("%d, %d\n",i, i%2);
 	}
-	result+=func(b);
-	result*=(h/3);
-	return result;	
+
+	for (int i = 2; i < N; i++)
+	{
+		if(i%2 != 0)
+		{
+			result += 2*func(a+i*h);
+		}
+	}
+	return result*(h/3);
+
 }
 
 /*****************************************************************************/
@@ -646,13 +654,12 @@ long double romberg(int N, long double a, long double b, long double (*func)(lon
 
 	//int J = floor(log2(N-1)); 	
 	//N in questo caso è il numero di suddivisioni in intervalli da fare
+	//cioè N = J
 	long double** values = (long double**)malloc(N*sizeof(long double*));
 	for (int i = 0; i < N; ++i)
 	{
 		values[i] = (long double*)malloc(N*sizeof(long double));
-	}
-	
-
+	}	
 
 	//collezione dei risultati del trapezio
 	//Riempio valuesT con i valori dei trapezi
@@ -662,11 +669,10 @@ long double romberg(int N, long double a, long double b, long double (*func)(lon
 		//printf("Valore a %d = %Lf\n",i,values[i][0]);
 	}
 
-	
 	//Array con tutti i valori ricorsivi successivi
 	for (int k = 1; k < N; ++k)
 	{
-		for (int j = 1; j <= k; ++j) //OCCHIO
+		for (int j = 1; j <= k; ++j) 
 		{
 			values[k][j] = (pow(4,j)*values[k][j-1] - values[k-1][j-1]) / (pow(4,j) - 1);
 		}
