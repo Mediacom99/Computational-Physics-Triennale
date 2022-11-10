@@ -12,8 +12,8 @@ Cosa fare?
  2. Calcolare l'integrale con legendre e laguerre, domanda ? laguerre è più efficiente di legendre?*/
 long double func(long double x)
 {
-	return pow(x,7)*exp(-x);
-	
+	//return pow(x,7)*exp(-x);
+	return pow(x,7);
 }
 
 int main(int argc, char const *argv[])
@@ -27,21 +27,35 @@ int main(int argc, char const *argv[])
 	FILE* file;
 	file = fopen(argv[1],"w");
 
-	//Per trapezio e Simpson faccio da N = 100 a N = 10000 con passi di 100
-	/*Format print N - trapezio - simpson - discrepanza Trapezio(|Wolfram-mio|) - discrepanza Simpson */
+
 	long double a,b;
 	a = 0;
 	b = 5.0;
 	long double result = 672.19323731283680927664;
+	
+	/*
 	long double s;
-	//long double t;
-	for(int N = 3; N < 150; N+=3)
+	long double t;
+	for(int N = 3; N < 103; N+=20)
 	{	
-		//t = trapezio(N,a,b,func);
+
+		t = trapezio(N,a,b,func);
 		s = simpson(N,a,b,func);
-		//fprintf(file, " %d,%.20Lf,%.20Lf,%.20Lf,%.20Lf\n",N, t, s,fabsl(result-t), fabsl(result - s) );
-		fprintf(file, " %lf,%.20Lf,%.20Lf\n",1/(double)N,s,fabsl(result-s));
+		fprintf(file, " %d,%.10Lf,%.10Lf,%.10Lf,%.10Lf\n",N, t, s,fabsl(result-t), fabsl(result - s) );
+		//fprintf(file, "%Lf,%.20Lf,%.20Lf\n",logl(1/(long double)N),t,logl(fabsl(result-t)));
 		
+	}
+	*/
+
+	//long double legendre;
+	long double laguerre;
+	//int punti[7] = {1,2,3,4,8,16,48};
+	int punti[5] = {2,4,8,24,64};
+	for (int i = 0; i < 5; ++i)
+	{
+		//legendre = Legendre(punti[i],a,b,func);
+		laguerre = Laguerre(punti[i],a,func) - Laguerre(punti[i],b,func);
+		fprintf(file, "%d,%.20Lf,%.20Lf\n",punti[i],laguerre,fabsl(result-laguerre));
 	}
 
 	return 0;

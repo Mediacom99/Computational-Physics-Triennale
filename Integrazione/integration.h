@@ -617,33 +617,25 @@ long double trapezio(int N, long double a, long double b, long double (*func)(lo
 //SIMPSON FUNZIONA SOLO CON NUMERO DI PUNTI MULTIPLI DI 3
 long double simpson(int N, long double a, long double b, long double (*func)(long double))
 {	
-	if(N%3 != 0)
+	if(N%2 == 0)
 	{	
-		printf("Simpson funziona solo con numero di punti multiplo di 3\n");
+		printf("Simpson funziona solo con numero dispari\n");
 		exit(EXIT_FAILURE);
 	}
-
 	long double h = (b-a) / (long double)(N-1) ;
 	long double result = 0.0;
-	result+= func(a) + func(b); //Aggiungo primo e ultimo punto
-	//Aggiungo gli elementi con fattore 2
-	for (int i = 2; i < N; i++)
-	{	
-		if(i%2 == 0)
-		{
-			result+= 4*func(a+i*h);
-		}
-		//printf("%d, %d\n",i, i%2);
-	}
-
-	for (int i = 2; i < N; i++)
+	result+= func(a) + func(b);
+	for (int i = 1; i < N-1; i++)
 	{
 		if(i%2 != 0)
 		{
-			result += 2*func(a+i*h);
+			result += 4*func(a+(long double)i*h);
+		}else if(i%2 == 0)
+		{
+			result += 2*func(a+(long double)i*h);
 		}
 	}
-	return result*(h/3);
+	return result*(h/3.0);
 
 }
 
