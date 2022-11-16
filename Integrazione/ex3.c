@@ -12,8 +12,8 @@ Cosa fare?
  2. Calcolare l'integrale con legendre e laguerre, domanda ? laguerre è più efficiente di legendre?*/
 long double func(long double x)
 {
-	//return pow(x,7)*exp(-x);
-	return pow(x,7);
+	return pow(x,7)*exp(-x);
+	//return pow(x,7);
 }
 
 int main(int argc, char const *argv[])
@@ -31,7 +31,7 @@ int main(int argc, char const *argv[])
 	long double a,b;
 	a = 0;
 	b = 5.0;
-	long double result = 672.19323731283680927664;
+	//long double result = 672.19323731283680927664;
 	
 	/*
 	long double s;
@@ -47,16 +47,24 @@ int main(int argc, char const *argv[])
 	}
 	*/
 
+	/*
 	//long double legendre;
-	long double laguerre;
+	//long double laguerre;
 	//int punti[7] = {1,2,3,4,8,16,48};
-	int punti[5] = {2,4,8,24,64};
-	for (int i = 0; i < 5; ++i)
+	long double romby;
+	//int punti[5] = {2,4,8,24,64};
+	for (int i = 3; i < 21; ++i)
 	{
 		//legendre = Legendre(punti[i],a,b,func);
-		laguerre = Laguerre(punti[i],a,func) - Laguerre(punti[i],b,func);
-		fprintf(file, "%d,%.20Lf,%.20Lf\n",punti[i],laguerre,fabsl(result-laguerre));
+		//laguerre = Laguerre(punti[i],a,func) - Laguerre(punti[i],b,func);
+		romby = romberg(i,a,b,func);
+		fprintf(file, "%d,%.20Lf,%.20Lf\n",i,romby,fabsl(result-romby));
 	}
+	*/
+	long double ciao;
+	ciao = romberg(15,a,b,func);
+	fprintf(file,"%Lf\n",ciao);
+	//fclose(file);
 
 	return 0;
 }

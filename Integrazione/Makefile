@@ -3,7 +3,7 @@ default_target: all
 
 CXXFLAGS = -lm -std=c99 -Wall -I./
 
-all: ex1 ex2
+all: ex1 ex2 ex3
 
 ex1:
 	@gcc ex1.c ${CXXFLAGS}  -o ex1.unx
