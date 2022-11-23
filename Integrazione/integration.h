@@ -645,13 +645,13 @@ long double romberg(int N, long double a, long double b, long double (*func)(lon
 {
 	//FILE* file;
 	//FILE* file2;
-	FILE* file3;
-	FILE* file4;
+	//FILE* file3;
+	//FILE* file4;
 	//file = fopen("datiRColonna1.txt","w");
 	//file2 = fopen("datiRColonna2.txt","w");
-	file3 = fopen("datiRColonna3GIUSTI.txt","w");
-	file4 = fopen("numeroDiPuntiGIUSTI.txt","w");
-	long double result = 672.19323731283680927664;
+	//file3 = fopen("datiRColonna3GIUSTI.txt","w");
+	//file4 = fopen("numeroDiPuntiGIUSTI.txt","w");
+	//long double result = 672.19323731283680927664;
 	//int J = floor(log2(N-1)); 	
 	//N in questo caso è il numero di suddivisioni in intervalli da fare
 	//cioè N = J
@@ -668,7 +668,7 @@ long double romberg(int N, long double a, long double b, long double (*func)(lon
 	{
 		values[i][0] = trapezio((int)(pow(2,i)+1),a,b,func); 
 		//fprintf(file, "%.10Lf\n",logl(fabsl(values[i][0] - result))); //Printo la prima colonna
-		fprintf(file4, "%lf\n",log(1/(pow(2,i)+1)));
+		//fprintf(file4, "%lf\n",log(1/(pow(2,i)+1)));
 	}
 
 	//Array con tutti i valori ricorsivi successivi
@@ -677,17 +677,19 @@ long double romberg(int N, long double a, long double b, long double (*func)(lon
 		for (int j = 1; j <= k; ++j) 
 		{
 			values[k][j] = (pow(4,j)*values[k][j-1] - values[k-1][j-1]) / (pow(4,j) - 1);
+			/*
 			if(j == 1){
-				//fprintf(file2, "%.10Lf\n",logl(fabsl(values[k][1]-result)));
+				fprintf(file2, "%.10Lf\n",logl(fabsl(values[k][1]-result)));
 			}else if(j == 2){
 				fprintf(file3, "%.10Lf\n",logl(fabsl(values[k][2]-result)));
 			}
+			*/
 		}
 	}
 
 	//printMatrix(N,values);
 	//printTableRomberg(N,values);
-	free(values);
+	//free(values);
 	return values[N-1][N-1];
 
 }

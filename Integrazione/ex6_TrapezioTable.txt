@@ -1,0 +1,8 @@
+3,inf,inf
+17,inf,inf
+31,inf,inf
+45,inf,inf
+59,inf,inf
+73,inf,inf
+87,inf,inf
+101,inf,inf
