@@ -610,6 +610,20 @@ long double trapezio(int N, long double a, long double b, long double (*func)(lo
 	return result;
 }
 
+
+//FORMULE APERTE INTEGRAZIONE DETERMINISTICA 3-5 PUNTI
+
+long double open3(long double a, long double b, long double (*func)(long double))
+{
+	long double h = (b-a) / 2.0;
+	return 2*h*func(a+h);
+}
+
+long double open5(long double a, long double b, long double (*func)(long double))
+{
+	long double h = (b-a) / 5.0;
+	return h*(5.0/24.0)*(11*func(a+h) + func(a+2*h) + func(a+3*h) + 11*func(a+4*h));
+}
 /***************************************************************************************/
 
 //COMPLETAMENTE ROTTO
@@ -881,8 +895,8 @@ long double Hermite(int N, long double a, long double (*func)(long double))
 		{
 			for (int i = 0; i < 50; ++i)
 			{
-				//result+=func(He_100x[i])*He_100w[i] + func(-He_100x[i])*He_100w[i];
-				result+=aInfH(a, He_100x[i],func)*He_100w[i] + aInfH(a,-He_100x[i],func)*He_100w[i];
+				result+=func(He_100x[i])*He_100w[i] + func(-He_100x[i])*He_100w[i];
+				//result+=aInfH(a, He_100x[i],func)*He_100w[i] + aInfH(a,-He_100x[i],func)*He_100w[i];
 			}
 			break;
 		}
