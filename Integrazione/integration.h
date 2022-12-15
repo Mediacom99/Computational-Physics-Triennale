@@ -6,11 +6,12 @@
 #include <math.h>
 
 //UTILITY
-void printMatrix(int dim, long double** matrix)
+// dim1 = righe, dim2 = colonne
+void printMatrix(int dim1, int dim2, long double** matrix)
 {
-	for (int j = 0; j < dim; ++j)
+	for (int j = 0; j < dim1; ++j)
 	{
-		for (int k = 0; k < dim; ++k)
+		for (int k = 0; k < dim2; ++k)
 		{
 			printf("[%d][%d] = %Lf\n",j,k,matrix[j][k]);
 		}
