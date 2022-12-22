@@ -1,5 +1,6 @@
 #include <integration.h>
 #include <math.h>
+#include <time.h>
 
 //Algoritmi perm e combinations presi da: https://people.engr.tamu.edu/djimenez/ut/utsa/cs3343/lecture25.html
 
@@ -15,9 +16,8 @@
 //dimensione della sfera: numero di elementi nel singolo gruppo 
 
 //Passo integrazione (passo punti)
-	const long double passo = 5000.0;
+	const long double passo = 20.0;
 	const long double h = 1/passo;
-	long double result = 0.0;
 
 void printVector(long double* vec, int M)
 {	
@@ -49,8 +49,33 @@ long double M_Sphere(int M, long double* comb)
 	}
 }
 
+long double sferaMonteCarlo(int M)
+{
 
+	long double* points = (long double*)malloc((M-1)*sizeof(long double));
+	long double result = 0.0;
+	clock_t t;
+	t = clock();
+	int counter = 0;
+	long double intervallo = 1.0 / ((long double)pow(10,5));
+	//Genero M-1 punti casualmente tra 0 e 1
+	while(counter < pow(10,5))
+	{
+		for (int i = 0; i < M-1; ++i)
+		{
+			points[i] = uniformRandom(0,1);
+		}
+		result+=M_Sphere(M,points);
+		counter++;
+	}
+	t = clock() - t;
+	result*=intervallo;
+	printf("Tempo esecuzione (stoc): %lf s\n", ((double)t) / CLOCKS_PER_SEC);
+	free(points);
+	return result;
+}
 
+/*
 void swap (long double* v, int i, int j) 
 {
 	long double	t;
@@ -69,6 +94,8 @@ void multiply(long double* v, int dim, int h)
 	return;
 }
 
+
+// Le seguenti due funzioni sono un tentativo di calcolo indipendente dalla dimensione.
 void perm (long double* v, int n, int i) 
 {
 
@@ -76,10 +103,10 @@ void perm (long double* v, int n, int i)
 
 	if (i == n) {
 
-		/*
+		
 		for (j=0; j<n; j++) printf ("%.4Lf ", v[j]);
 		printf ("\n");
-		*/
+		
 		long double* temp = (long double*)malloc(n*sizeof(long double));
 		for (int i = 0; i < n; ++i)
 		{
@@ -126,8 +153,7 @@ void combinations(long double* v, int start, int n, int k, int maxk)
 	}
 }
 
-
-//Provare una funzione ricorsiva ? 
+*/
 
 int main(int argc, char const *argv[])
 {
@@ -141,10 +167,16 @@ int main(int argc, char const *argv[])
 	FILE* file;
 	file = fopen(argv[2],"w");
 	int M = atoi(argv[1]);
-	//long double* comb = (long double*)malloc((M-1)*sizeof(long double)); //Combinations to feed into func
+
+	long double result = 0.0;
+
+	long double* comb = (long double*)malloc((M-1)*sizeof(long double)); //Combinations to feed into func
 
 	//Vettore con i possibili valori da permutare
 	long double* values = (long double*)malloc(passo*sizeof(long double));
+
+	//Calcolo tempo di esecuzione:
+	clock_t t;
 
 	
 	//printf("Values:\n");
@@ -154,55 +186,50 @@ int main(int argc, char const *argv[])
 		//printf("%.4Lf ", values[i]);
 	}
 
-	printf("\n---------------------------------------------------------------------\n");
-
-		/*
-		for (int i = 0; i < passo; ++i)
+	t = clock();
+		
+				
+		for (int p = 0; p < passo; ++p)
 		{
-			for (int j = 0; j < passo; ++j)
+			for (int n = 0; n < passo; ++n)
 			{
-				for (int k = 0; k < passo; ++k)
-				{	
-					for(int m = 0; m < passo; ++m)
+				for (int q = 0; q < passo; ++q)
+				{
+					for (int l = 0; l < passo; ++l)
 					{
-					comb[0] = (i+1)*h - h/2.0;
-					comb[1] = (j+1)*h - h/2.0;
-					comb[2] = (k+1)*h - h/2.0;
-					comb[3] = (m+1)*h - h/2.0;
-					result+= pow(h,M-1)*M_Sphere(M,comb);
+						for (int j = 0; j < passo ; ++j)
+						{
+							for (int i = 0; i < passo; ++i)
+							{
+								for(int m = 0; m < passo; ++m)
+								{
+									comb[0] = (m+1)*h - h/2.0;
+									comb[1] = (i+1)*h - h/2.0;
+									comb[2] = (j+1)*h - h/2.0;
+									comb[3] = (l+1)*h - h/2.0;
+									comb[4] = (q+1)*h - h/2.0;
+									comb[5] = (n+1)*h - h/2.0;
+									comb[6] = (p+1)*h - h/2.0;
+									result+= pow(h,M-1)*M_Sphere(M,comb);
+								}
+							}
+						}
 					}
 				}
 			}
 		}
-	*/
-
-
-		combinations(values,1,passo,1,M-1);
-		printf("\n-----------------------------------------------\n");
-		//perm(values,passo,0);
-
-		//Convergenza è da sopra o sotto in base a se lascio o tolgo
-		// la somma sugli elementi diagonali
-		/*
-		//Mi mancano da aggiungere gli elementi diagonali (h,h,h) (2h,2h,2h)
-		long double* diag = (long double*)malloc((M-1)*sizeof(long double));
-
-		for (int i = 0; i < M-1; ++i)
-		{
-			diag[i] = h;
-		}
-
-		for (int i = 0; i < passo; ++i)
-		{
-			multiply(diag,M-1,i+1);
-			result+=pow(h,M-1)*M_Sphere(M,diag);
-
-		}
-		free(diag);
-		*/
-	
-		printf("Risultato integrale = %.10Lf\n",(long double)pow(2,M)*(result));
+				
+			
 		
+	
+		t = clock() - t;
+		double time_taken = ((double)t)/CLOCKS_PER_SEC;
+
+
+		printf("\n-----------------------------------------------\n");
+		printf("Risultato integrale (det) = %.10Lf\n",(long double)pow(2,M)*(result));
+		printf("Tempo di esecuzione (det): %lf s\n",time_taken);
+		printf("Risultato integrale (stoc) = %.10Lf\n",(long double)pow(2,M)*sferaMonteCarlo(M));
 	
 
 
