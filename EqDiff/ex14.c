@@ -13,8 +13,10 @@ long double fd(long double x, long double y, long double z)
 
 int main(int argc, char const *argv[])
 {
-	EuleroII(fd,0,1,0,0.01,157.0796*2);
-	//Runge_Kutta2(ff,fd,0,1,0,0.001,1570.796);
+	//EuleroII    (fd, 0 , 1 , 0 , 0.01 , 15700.796);
+	//Runge_Kutta2(fd, 0 , 1 , 0 , 0.1 , 1570.0796);
+	provark2(fd, 0 , 1 , 0 , 0.01 , 15700.796);
+	provaEulero    (fd, 0 , 1 , 0 , 0.01 , 15700.796);
 	return 0;
 
 }
