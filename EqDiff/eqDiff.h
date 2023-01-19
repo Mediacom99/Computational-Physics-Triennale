@@ -18,7 +18,7 @@ eq diff del primo ordine, func è la funzione che conosco nell'eq diff che vogli
 
 //per ora funziona solo per eq diff del II ordine
 void EuleroII(long double (*fd)(long double, long double, long double), 
-	long double f0, long double df0, long double x0, 
+	long double f0, long double df0, long double t0, 
 	long double h, int n)
 {	
 	FILE* file;
@@ -28,26 +28,21 @@ void EuleroII(long double (*fd)(long double, long double, long double),
 	//df0 = dato iniziale della derivata
 	//x0 = punto in cui vengono dati i dati iniziali
 
-	//Valori iniziali
-	// n = 0;
-	fprintf(file, "%.10Lf,%.10Lf\n",x0,f0); //printo il valore a x0
-	//calcolo per n = 1;
-	long double evSol = f0 + h*df0; //Evoluzione funzione soluzione
-	long double evDSol = df0 + h*fd(f0,0,x0);	//Evoluzione derivata soluzione
-	long double xn = x0 + h;
-	fprintf(file, "%.10Lf,%.10Lf\n",xn,evSol); //printo il valore a x1
-	long double tempSol = 0; //queste due variabili temp mi servono per salvare il valore n-esimo nel loop
-	long double tempDSol = 0;
-	for (int i = 2; i <= n; ++i)
+	long double f = f0; //variabile che segue l'evoluzione della soluzione dell'eq diff
+	long double df = df0; //variabile che segue l'evoluzione della derivata della soluzione dell'eq diff
+	long double tn = t0; //evoluzione della variabile indipendente
+	long double k1d,k1f; //variabili di supporto nel loop per salvare i valori n-esimi
+	fprintf(file,"%.10Lf,%.10Lf\n",tn,f); //printo i valori iniziali
+	for (int i = 0; i < n; ++i)
 	{	
-		//Salvo i valori n-esimi
-		tempSol = evSol;
-		tempDSol = evDSol;
-		//trovo i valori n+1 esimi
-		evDSol = tempDSol + h*fd(tempSol,0,xn); //usando xn, trovo xn+1
-		evSol = tempSol + h*tempDSol;
-		xn += h; //passo a xn+1 che corrisponde ad evSol che trovo nel loop
-		fprintf(file, "%.10Lf,%.10Lf\n",xn,evSol); //printo il valore (x2 al primo, poi x(n+1))
+		//salvo i valori n-esimi
+		k1f = df;
+		k1d = f;
+		//calcolo i valori n+1
+		f = f + h*(k1f);
+		df = df + h*fd(k1d,0,tn);
+		tn+=h;
+		fprintf(file, "%.10Lf,%.10Lf\n",tn,f);
 	}
 
 	fclose(file);
@@ -62,130 +57,37 @@ void EuleroII(long double (*fd)(long double, long double, long double),
 //Per ora implemento solo per eq diff II ordine, disaccoppiandole in due eq diff del I ordine accoppiate
 
 void Runge_Kutta2(long double (*fd)(long double, long double, long double), 
-	long double f0, long double df0, long double x0, 
+	long double f0, long double df0, long double t0, 
 	long double h, int n)
 {	
-	FILE* file;
-	file = fopen("DataRK2.txt","w");
+	FILE* file1;
+	file1 = fopen("DataRK2.txt","w");
 
 	//f0 = dato iniziale della soluzione
 	//df0 = dato iniziale della derivata
 	//x0 = punto in cui vengono dati i dati iniziali
 
-	//Valori iniziali
-	fprintf(file, "%.10Lf,%.10Lf\n",x0,f0); //printo il valore a x0
-	//calcolo per n = 1;
-	long double k1f = (h/2)*(df0);
-	long double k1d = (h/2)*(fd(f0,0,x0));
-	long double evSol = f0 + h*(df0 + k1d); //Evoluzione funzione soluzione
-	long double evDSol = df0 + h*fd(f0 + k1f,0,x0 + h/2);	//Evoluzione derivata soluzione
-	long double xn = x0 + h;
-	fprintf(file, "%.10Lf,%.10Lf\n",xn,evSol); //printo il valore a n = 1
-
-	//ora in xn, k1f, k1d, evSol e evDSol sono i valori a n = 1
-
-	//k1f = (h/2)*(evDSol);
-	//k1d = (h/2)*(fd(evSol,0,xn)); 
-	//Variabili temporanee per salvare i valori n-esimi nel loop
-	long double tempSol = 0; 
-	long double tempDSol = 0;
-	//long double k1f_temp = 0;
-	//long double k1d_temp = 0;
-	//I primi valori che calcolo nel loop saranno per n = 2
-	for (int i = 2; i <= n; ++i)
+	long double f = f0; //variabile che segue l'evoluzione della soluzione dell'eq diff
+	long double df = df0; //variabile che segue l'evoluzione della derivata della soluzione dell'eq diff
+	long double tn = t0; //evoluzione della variabile indipendente
+	long double k1d,k1f,k2d,k2f; //variabili di supporto nel loop per salvare i valori n-esimi
+	fprintf(file1,"%.10Lf,%.10Lf\n",tn,f); //printo i valori iniziali
+	for (int i = 0; i < n; ++i)
 	{	
-		//Salvo i valori n-esimi (n = 1 alla prima iterazione)
-		tempSol = evSol;
-		tempDSol = evDSol;
-		//Calcolo i k n-esimi 
-		k1f = (h/2)*(tempDSol);
-		k1d = (h/2)*(fd(tempSol,0,xn)); 
-		
-		//trovo i valori n+1 esimi tramite i valori n-esimi (n = 2 alla prima iterazione)
-		evDSol = tempDSol + h*fd(tempSol + k1d,0,xn + h/2); //usando xn, trovo xn+1
-		evSol = tempSol + h*(tempDSol + k1f);
-		xn += h; 
-		
-		fprintf(file, "%.10Lf,%.10Lf\n",xn,evSol); //printo il valore (n = 2 al primo)
+		//calcolo i k1 e k2
+		k1f = h*df;
+		k1d = h*fd(f,0,tn);
+		k2f = h*(df + k1f/2.0);
+		k2d = h*fd(f + k1d/2.0,0,tn + h/2.0);
+
+		//calcolo i valori n+1
+		f = f + k2f;
+		df = df + k2d;
+		tn+=h;
+		fprintf(file1, "%.10Lf,%.10Lf\n",tn,f);
 	}
 
-	fclose(file);
-	return;
-
-}
-
-void provark2(long double (*fd)(long double, long double, long double), 
-	long double f0, long double df0, long double x0, 
-	long double h, int n)
-{	
-	FILE* file;
-	file = fopen("DataRK2.txt","w");
-
-	//f0 = dato iniziale della soluzione
-	//df0 = dato iniziale della derivata
-	//x0 = punto in cui vengono dati i dati iniziali
-
-	//Valori iniziali
-	// n = 0;
-	fprintf(file, "%.10Lf,%.10Lf\n",x0,f0); //printo il valore a x0
-	long double evSol = f0;  
-	long double evDSol = df0; 
-	long double xn = x0;
-	long double k1d;
-	long double k1f;
-	long double k2d;
-	long double k2f;
-
-	for (int i = 1; i <= n; ++i)
-	{	
-		k1d = h*(-evSol);
-		k1f = h*(evDSol);
-		k2d = h*(-evSol + k1d/2.0);
-		k2f = h*(evDSol + k1f/2.0);
-		evDSol = evDSol + k2d;
-		evSol = evSol + k2f;
-		xn+=h;
-		fprintf(file, "%.10Lf,%.10Lf\n",xn,evSol);
-	}
-
-	fclose(file);
-	return;
-
-}
-
-
-void provaEulero(long double (*fd)(long double, long double, long double), 
-	long double f0, long double df0, long double x0, 
-	long double h, int n)
-{	
-	FILE* file;
-	file = fopen("DataE.txt","w");
-
-	//f0 = dato iniziale della soluzione
-	//df0 = dato iniziale della derivata
-	//x0 = punto in cui vengono dati i dati iniziali
-
-	//Valori iniziali
-	// n = 0;
-	fprintf(file, "%.10Lf,%.10Lf\n",x0,f0); //printo il valore a x0
-	//calcolo per n = 1;
-	long double evSol = f0; //Evoluzione funzione soluzione
-	long double evDSol = df0;	//Evoluzione derivata soluzione
-	long double xn = x0;
-	long double k1d;
-	long double k1f;
-	for (int i = 1; i <= n; ++i)
-	{	
-		//trovo i valori n+1 esimi
-		k1d = -evSol;
-		k1f = evDSol;
-		evDSol = evDSol + h*(k1d); //usando xn, trovo xn+1
-		evSol = evSol + h*k1f;
-		xn += h; //passo a xn+1 che corrisponde ad evSol che trovo nel loop
-		fprintf(file, "%.10Lf,%.10Lf\n",xn,evSol); //printo il valore (x2 al primo, poi x(n+1))
-	}
-
-	fclose(file);
+	fclose(file1);
 	return;
 
 }
