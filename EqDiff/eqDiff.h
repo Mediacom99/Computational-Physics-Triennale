@@ -71,20 +71,20 @@ void Runge_Kutta2(long double (*fd)(long double, long double, long double),
 	long double df = df0; //variabile che segue l'evoluzione della derivata della soluzione dell'eq diff
 	long double tn = t0; //evoluzione della variabile indipendente
 	long double k1d,k1f,k2d,k2f; //variabili di supporto nel loop per salvare i valori n-esimi
-	fprintf(file1,"%.20Lf,%.20Lf\n",tn,f); //printo i valori iniziali
+	fprintf(file1,"%.10Lf,%.10Lf\n",tn,f); //printo i valori iniziali
 	for (int i = 0; i < n; ++i)
 	{	
 		//calcolo i k1 e k2
 		k1f = h*df;
 		k1d = h*fd(f,0,tn);
-		k2f = h*(df + k1f/2.0);
-		k2d = h*fd(f + k1d/2.0,0,tn + h/2.0);
+		k2f = h*(df + k1d/2.0);
+		k2d = h*fd(f + k1f/2.0,0,tn + h/2.0);
 		
 		//calcolo i valori n+1
 		f = f + k2f;
 		df = df + k2d;
 		tn+=h;
-		fprintf(file1, "%.20Lf,%.20Lf\n",tn,f);
+		fprintf(file1, "%.10Lf,%.10Lf\n",tn,f);
 	}
 
 	fclose(file1);
