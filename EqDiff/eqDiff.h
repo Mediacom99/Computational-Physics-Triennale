@@ -19,7 +19,7 @@ eq diff del primo ordine, func è la funzione che conosco nell'eq diff che vogli
 //per ora funziona solo per eq diff del II ordine
 void EuleroII(long double (*fd)(long double, long double, long double), 
 	long double f0, long double df0, long double t0, 
-	long double h, int n, FILE* Etxt)
+	long double h, int n)
 {	
 	FILE* file;
 	file = fopen("DataE.txt","w");
@@ -46,7 +46,7 @@ void EuleroII(long double (*fd)(long double, long double, long double),
 		fprintf(file, "%.20Lf,%.20Lf\n",tn,f);
 	}
 
-	fprintf(Etxt, "%.20Lf\n", logl(fabsl(1-f)));
+	//fprintf(Etxt, "%.20Lf\n", logl(fabsl(1-f)));
 	fclose(file);
 	return;
 
@@ -60,7 +60,7 @@ void EuleroII(long double (*fd)(long double, long double, long double),
 
 void Runge_Kutta2(long double (*fd)(long double, long double, long double), 
 	long double f0, long double df0, long double t0, 
-	long double h, int n, FILE* RK2txt)
+	long double h, int n)
 {	
 	FILE* file1;
 	file1 = fopen("DataRK2.txt","w");
@@ -90,7 +90,7 @@ void Runge_Kutta2(long double (*fd)(long double, long double, long double),
 		fprintf(file1, "%.20Lf,%.20Lf\n",tn,f);
 	}
 
-	fprintf(RK2txt, "%.20Lf\n", logl(fabsl(1-f)));
+	//fprintf(RK2txt, "%.20Lf\n", logl(fabsl(1-f)));
 	fclose(file1);
 	return;
 
@@ -102,7 +102,7 @@ void Runge_Kutta2(long double (*fd)(long double, long double, long double),
 
 void Runge_Kutta4(long double (*fd)(long double, long double, long double), 
 	long double f0, long double df0, long double t0, 
-	long double h, int n, FILE* RK4txt)
+	long double h, int n)
 {	
 	FILE* file1;
 	file1 = fopen("DataRK4.txt","w");
@@ -135,7 +135,7 @@ void Runge_Kutta4(long double (*fd)(long double, long double, long double),
 		fprintf(file1, "%.20Lf,%.20Lf\n",tn,f);
 	}
 
-	fprintf(RK4txt, "%.20Lf\n", logl(fabsl(1-f)));
+	//fprintf(RK4txt, "%.20Lf\n", logl(fabsl(1-f)));
 	fclose(file1);
 	return;
 
