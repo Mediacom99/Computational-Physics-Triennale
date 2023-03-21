@@ -53,15 +53,15 @@ ax.plot(C,D, color = "purple") #RK4
 #ax.plot(lsp,np.sin(lsp) - 10, color = "blue")
 #axs[1].plot(C,D, color = "purple")
 
-ax.set_xlabel("h, passi di integrazione")
-ax.set_ylabel("Deviazioni dalla soluzione esatta")
-ax.set_title("Deviazione dalla soluzione esatta a x = " + r'$\frac{\pi}{2}$')
-ax.legend(["Eulero","Runge Kutta 2","Runge Kutta 4"], loc="upper left")
+ax.set_xlabel("x")
+ax.set_ylabel("df/dx")
+ax.set_title("Risoluzione pendolo completo, derivata della soluzione (passo h = 0.1)")
+ax.legend(["Eulero","RK2","RK4"], loc="upper left")
 #axs[1].legend(["Runge Kutta 4"])
 #axs[2].legend(["Soluzione esatta"])
 
 
-ax.set(xlim=(np.amin(C) - 5,np.amax(C) + 5),ylim=(np.amin(D)-5,np.amax(D)+5))
+ax.set(xlim=(np.amin(C),np.amax(C)+1),ylim=(np.amin(D)-1,np.amax(D)+1))
 
 
 plt.show()

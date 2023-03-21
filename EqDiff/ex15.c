@@ -20,7 +20,7 @@ int main(int argc, char const *argv[])
 	long double f0 = 0; //Dato iniziale soluzione
 	long double df0 = 1; //Dato iniziale derivata soluzione
 	long double T = 15.70796327*4;
-	long double h = 0.001;
+	long double h = 0.1;
 	long double n = T/h;
 	EuleroII(fd, f0, df0 , 0 , h ,n);
 	Runge_Kutta2(fd, f0 , df0 , 0 , h ,n);

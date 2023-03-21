@@ -33,7 +33,11 @@ void EuleroII(long double (*fd)(long double, long double, long double),
 	long double df = df0; //variabile che segue l'evoluzione della derivata della soluzione dell'eq diff
 	long double tn = t0; //evoluzione della variabile indipendente
 	long double k1d,k1f; //variabili di supporto nel loop per salvare i valori n-esimi
-	fprintf(file,"%.20Lf,%.20Lf\n",tn,f); //printo i valori iniziali
+
+	/* PRINTO I VALORI INIZIALI */
+		//fprintf(file, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
+		fprintf(file, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
+		//fprintf(file, "%.20Lf,%.20Lf\n",f,df); //printo f'(f) (grafico di fase)
 	for (int i = 0; i < n; ++i)
 	{	
 		//salvo i valori n-esimi
@@ -43,7 +47,9 @@ void EuleroII(long double (*fd)(long double, long double, long double),
 		f = f + h*(k1f);
 		df = df + h*fd(k1d,0,tn);
 		tn+=h;	
-		fprintf(file, "%.20Lf,%.20Lf\n",tn,f);
+		//fprintf(file, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
+		fprintf(file, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
+		//fprintf(file, "%.20Lf,%.20Lf\n",f,df); //printo f'(f) (grafico di fase)
 	}
 
 	//fprintf(Etxt, "%.20Lf\n", logl(fabsl(1-f)));
@@ -74,7 +80,11 @@ void Runge_Kutta2(long double (*fd)(long double, long double, long double),
 	long double df = df0; //variabile che segue l'evoluzione della derivata della soluzione dell'eq diff
 	long double tn = t0; //evoluzione della variabile indipendente
 	long double k1d,k1f,k2d,k2f; //variabili di supporto nel loop per salvare i valori n-esimi
-	fprintf(file1,"%.20Lf,%.20Lf\n",tn,f); //printo i valori iniziali
+
+	//PRINTO I VALORI INIZIALI
+		//fprintf(file1, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
+		fprintf(file1, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
+		//fprintf(file1, "%.20Lf,%.20Lf\n",f,df); //printo f'(f) (grafico di fase)
 	for (int i = 0; i < n; ++i)
 	{	
 		//calcolo i k1 e k2
@@ -87,7 +97,9 @@ void Runge_Kutta2(long double (*fd)(long double, long double, long double),
 		f = f + k2f;
 		df = df + k2d;
 		tn+=h;
-		fprintf(file1, "%.20Lf,%.20Lf\n",tn,f);
+		//fprintf(file1, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
+		fprintf(file1, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
+		//fprintf(file1, "%.20Lf,%.20Lf\n",f,df); //printo f'(f) (grafico di fase)
 	}
 
 	//fprintf(RK2txt, "%.20Lf\n", logl(fabsl(1-f)));
@@ -104,8 +116,8 @@ void Runge_Kutta4(long double (*fd)(long double, long double, long double),
 	long double f0, long double df0, long double t0, 
 	long double h, int n)
 {	
-	FILE* file1;
-	file1 = fopen("DataRK4.txt","w");
+	FILE* file2;
+	file2 = fopen("DataRK4.txt","w");
 
 	//f0 = dato iniziale della soluzione
 	//df0 = dato iniziale della derivata
@@ -115,7 +127,12 @@ void Runge_Kutta4(long double (*fd)(long double, long double, long double),
 	long double df = df0; //variabile che segue l'evoluzione della derivata della soluzione dell'eq diff
 	long double tn = t0; //evoluzione della variabile indipendente
 	long double k1d,k1f,k2d,k2f,k3d,k3f,k4d,k4f; //variabili di supporto nel loop per salvare i valori n-esimi
-	fprintf(file1,"%.20Lf,%.20Lf\n",tn,f); //printo i valori iniziali
+
+	// PRINTO I VALORI INIZIALI
+	//fprintf(file2, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
+	fprintf(file2, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
+	//fprintf(file2, "%.20Lf,%.20Lf\n",f,df); //printo f'(f) (grafico di fase)
+	fprintf(file2,"%.20Lf,%.20Lf\n",tn,f); //printo i valori iniziali
 	for (int i = 0; i < n; ++i)
 	{	
 		//calcolo i k1 e k2
@@ -132,11 +149,13 @@ void Runge_Kutta4(long double (*fd)(long double, long double, long double),
 		f = f + (1/6.0)*(k1f + 2*k2f + 2*k3f + k4f);
 		df = df + (1/6.0)*(k1d + 2*k2d + 2*k3d + k4d);
 		tn+=h;
-		fprintf(file1, "%.20Lf,%.20Lf\n",tn,f);
+		//fprintf(file2, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
+		fprintf(file2, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
+		//fprintf(file2, "%.20Lf,%.20Lf\n",f,df); //printo f'(f) (grafico di fase)
 	}
 
 	//fprintf(RK4txt, "%.20Lf\n", logl(fabsl(1-f)));
-	fclose(file1);
+	fclose(file2);
 	return;
 
 }
