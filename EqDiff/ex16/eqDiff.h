@@ -15,6 +15,14 @@ eq diff del primo ordine, func è la funzione che conosco nell'eq diff che vogli
 // n è il termine di evoluzione
 // T = nh è il tempo totale di campionamento
 
+/*
+README README README
+
+Per scegliere cosa stampare su file tra f(x), f'(x), f'(f) bisogna togliere e aggiungere
+i commenti ai fprintf giusti prima e dopo il for loop per ogni metodo. 
+
+*/
+
 
 //per ora funziona solo per eq diff del II ordine
 void EuleroII(long double (*fd)(long double, long double, long double), 
@@ -35,8 +43,8 @@ void EuleroII(long double (*fd)(long double, long double, long double),
 	long double k1d,k1f; //variabili di supporto nel loop per salvare i valori n-esimi
 
 	/* PRINTO I VALORI INIZIALI */
-		fprintf(file, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
-		//fprintf(file, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
+		//fprintf(file, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
+		fprintf(file, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
 		//fprintf(file, "%.20Lf,%.20Lf\n",f,df); //printo f'(f) (grafico di fase)
 	for (int i = 0; i < n; ++i)
 	{	
@@ -47,8 +55,8 @@ void EuleroII(long double (*fd)(long double, long double, long double),
 		f = f + h*(k1f);
 		df = df + h*fd(k1d,k1f,tn);
 		tn+=h;	
-		fprintf(file, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
-		//fprintf(file, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
+		//fprintf(file, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
+		fprintf(file, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
 		//fprintf(file, "%.20Lf,%.20Lf\n",f,df); //printo f'(f) (grafico di fase)
 	}
 
@@ -82,8 +90,8 @@ void Runge_Kutta2(long double (*fd)(long double, long double, long double),
 	long double k1d,k1f,k2d,k2f; //variabili di supporto nel loop per salvare i valori n-esimi
 
 	//PRINTO I VALORI INIZIALI
-		fprintf(file1, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
-		//fprintf(file1, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
+		//fprintf(file1, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
+		fprintf(file1, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
 		//fprintf(file1, "%.20Lf,%.20Lf\n",f,df); //printo f'(f) (grafico di fase)
 	for (int i = 0; i < n; ++i)
 	{	
@@ -97,8 +105,8 @@ void Runge_Kutta2(long double (*fd)(long double, long double, long double),
 		f = f + k2f;
 		df = df + k2d;
 		tn+=h;
-		fprintf(file1, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
-		//fprintf(file1, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
+		//fprintf(file1, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
+		fprintf(file1, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
 		//fprintf(file1, "%.20Lf,%.20Lf\n",f,df); //printo f'(f) (grafico di fase)
 	}
 
@@ -129,8 +137,8 @@ void Runge_Kutta4(long double (*fd)(long double, long double, long double),
 	long double k1d,k1f,k2d,k2f,k3d,k3f,k4d,k4f; //variabili di supporto nel loop per salvare i valori n-esimi
 
 	// PRINTO I VALORI INIZIALI
-	fprintf(file2, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
-	//fprintf(file2, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
+	//fprintf(file2, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
+	fprintf(file2, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
 	//fprintf(file2, "%.20Lf,%.20Lf\n",f,df); //printo f'(f) (grafico di fase)
 
 	for (int i = 0; i < n; ++i)
@@ -149,8 +157,8 @@ void Runge_Kutta4(long double (*fd)(long double, long double, long double),
 		f = f + (1/6.0)*(k1f + 2*k2f + 2*k3f + k4f);
 		df = df + (1/6.0)*(k1d + 2*k2d + 2*k3d + k4d);
 		tn+=h;
-		fprintf(file2, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
-		//fprintf(file2, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
+		//fprintf(file2, "%.20Lf,%.20Lf\n",tn,f); //printo f(t)
+		fprintf(file2, "%.20Lf,%.20Lf\n",tn,df); //printo f'(t)
 		//fprintf(file2, "%.20Lf,%.20Lf\n",f,df); //printo f'(f) (grafico di fase)
 	}
 

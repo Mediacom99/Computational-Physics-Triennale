@@ -1,9 +1,9 @@
 default_target: all
-.PHONY: all ex1 ex2 ex3 ex4 ex5 ex6 ex7 ex8 ex14 ex15 ex16 ex17
+.PHONY: all ex1 ex2 ex3 ex4 ex5 ex6 ex7 ex8 ex14 ex15 ex16
 
 CXXFLAGS = -lm -std=c99 -I./
 
-all: ex1 ex2 ex3 ex4 ex5 ex6 ex7 ex8 ex14 ex15 ex16 ex17
+all: ex1 ex2 ex3 ex4 ex5 ex6 ex7 ex8 ex14 ex15 ex16
 
 ex1:
 	@gcc ex1.c ${CXXFLAGS}  -o ex1.unx
@@ -29,6 +29,4 @@ ex14:
 ex15:
 	@gcc ex15.c ${CXXFLAGS}  -o ex15.unx
 ex16:
-	@gcc ex16.c ${CXXFLAGS}  -o ex16.unx
-ex17:
-	@gcc ex17.c ${CXXFLAGS}  -o ex17.unx	
+	@gcc ex16.c ${CXXFLAGS}  -o ex16.unx	
