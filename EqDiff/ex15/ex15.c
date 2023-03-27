@@ -28,7 +28,7 @@ long double fd(long double x, long double y, long double z)
 // Pendolo completo + attrito +  forzante
 long double fd(long double x, long double y, long double z)
 {
-	return -sin(x) - 0.1*y + 0.1*sin((2.0/3.0)*z);
+	return -sin(x) - 0.5*y + 0.1*sin((2.0/3.0)*z);
 }
 
 int main(int argc, char const *argv[])
