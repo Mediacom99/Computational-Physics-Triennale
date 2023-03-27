@@ -8,4 +8,4 @@ Topics of the lectures:
 3. Differential Equations
 
 
-Programming language used: C for algorithms and Python3 for plotting graphs.
+Programming language used: C for algorithms and Python3(Matplotlib) for plotting graphs.
