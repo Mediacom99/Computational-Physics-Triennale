@@ -65,8 +65,7 @@ void vecRK4(long double* stato, void(*func)(long double*, long double*, long dou
 	long double k3[N];
 	long double k4[N];
 	long double temp1[N];
-	long double temp2[N];
-
+	
 	func(k1,stato,t); //Calcolo k1
 
 	//Calcolo l'array con cui faccio lo step successivo per calcolare k2 = func(f+k1h/2)
