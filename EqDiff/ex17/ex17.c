@@ -16,7 +16,7 @@ int main(int argc, char const *argv[])
 {	
 
 	FILE* file;
-	file = fopen("XYZtData4.txt","w");
+	file = fopen("XYZtData.txt","w");
 
 
 	//Campionamento
@@ -36,8 +36,8 @@ int main(int argc, char const *argv[])
 	{
 
 		//vecEulero(stato, func, t, h, 3);
-		vecRKII(stato, func, t, h, 3);
-		//vecRK4(stato, func, t, h, 3);
+		//vecRKII(stato, func, t, h, 3);
+		vecRK4(stato, func, t, h, 3);
 
 		fprintf(file, "%.20Lf, %.20Lf, %.20Lf, %.20Lf\n",stato[0], stato[1], stato[2],t);
 		t+=h;

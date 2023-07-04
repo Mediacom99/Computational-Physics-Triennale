@@ -22,16 +22,19 @@ plt.style.use('_mpl-gallery')
 
 #fig,axs = plt.subplots(1, sharex=True, sharey=True)
 #fig = plt.figure(layout="constrained")
-ax = plt.figure().add_subplot(projection="3d")
+#ax = plt.figure().add_subplot(projection="3d")
+ax = plt.figure().add_subplot();
 plt.tight_layout() #fai in modo che il grafico si centri bene nella figura
 #fig.set_size_inches(30/2.54, 30/2.54)
 
 
 
-ax.plot(x,y,z, color="purple"); 
-ax.legend(["Eulero "+r'$h=\frac{1}{144}$']);
+ax.plot(y,z, color="black"); 
+ax.legend(["RK4-"+r'$h=\frac{1}{144}$']);
+ax.set_xlabel("y");
+ax.set_ylabel("z");
 
 
-ax.set_title("Attrattore di Lorenz - Eulero [Time=60s]-[1,1,1]");
+ax.set_title("Attrattore di Lorenz - Piano (y,z) - Runge Kutta 4\n[Time=60s], Dati iniziali: [0.45,7,2]");
 
 plt.show()
