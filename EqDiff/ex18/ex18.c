@@ -9,8 +9,8 @@
 // differenziali del I ordine.
 //Array stato è organizzato avendo prima i tre array di coordinate e poi i 3 array di derivate delle coordinate
 
-const long double M[3] = {1.6,0.4,0.4};
-//const long double M[3] = {0.3,0.3,0.3};
+//const long double M[3] = {1.6,0.4,0.4};
+const long double M[3] = {0.3,0.3,0.3};
 
 void iniZero(long double* vec)
 {
@@ -134,15 +134,16 @@ void initializeState(long double* stato)
 {
 	//Primo set dati iniziali
 	
-	/*
+	
 	long double x1[3] = {1.0,0.0,0.0};
 	long double x2[3] = {-1.0,0.0,0.0};
 	long double x3[3] = {0.0,0.0,0.0};
 	long double p1[3] = {0.0,0.15,-0.15};
 	long double p2[3] = {0.0,-0.15,0.15};
 	long double p3[3] = {0.0,0.0,0.0};
-	*/
 	
+	
+	/*
 	//Secondo set dati iniziali
 	long double x1[3] = {1.0,0.0,0.0};
 	long double x2[3] = {-1.0,0.0,0.0};
@@ -150,7 +151,7 @@ void initializeState(long double* stato)
 	long double p1[3] = {0.0,0.4,0.0};
 	long double p2[3] = {0.0,-0.8,0.7};
 	long double p3[3] = {0.0,-0.8,-0.7};
-	
+	*/
 	
 	iniState(stato,x1,1,true);
 	iniState(stato,x2,2,true);
