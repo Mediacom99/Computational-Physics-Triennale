@@ -36,13 +36,16 @@ ax = fig.add_subplot(projection="3d")
 #fig.set_size_inches(30/2.54, 30/2.54)
 
 
-ax.scatter(x3[0],y3[0],z3[0], color="purple")
+ax.scatter(x3[0],y3[0],z3[0], color="green", marker="*")
+ax.scatter(x[0],y[0],z[0], color="black")
+ax.scatter(x2[0],y2[0],z2[0], color="red")
 ax.plot(x,y,z, color="black"); 
 ax.plot(x2,y2,z2, color="red");
 ax.plot(x3,y3,z3, color="green");
 #ax.legend(["RK4-"+r'$h=\frac{1}{144}$']);
-#ax.set_xlabel("y");
-#ax.set_ylabel("z");
+ax.set_xlabel("x");
+ax.set_ylabel("y");
+ax.set_zlabel("z")
 #ax.set_title("Attrattore di Lorenz - Piano (y,z) - Runge Kutta 4\n[Time=60s], Dati iniziali: [0.45,7,2]");
 
 plt.show()

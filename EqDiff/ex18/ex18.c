@@ -91,13 +91,23 @@ void iniState(long double* stato, long double* data, int i, bool coord)
 
 void initializeState(long double* stato)
 {
-
+	
 	long double x1[3] = {1.0,0.0,0.0};
 	long double x2[3] = {-1.0,0.0,0.0};
 	long double x3[3] = {0.0,0.0,0.0};
 	long double p1[3] = {0.0,0.15,-0.15};
 	long double p2[3] = {0.0,-0.15,0.15};
 	long double p3[3] = {0.0,0.0,0.0};
+	
+
+	/*
+	long double x1[3] = {0.0,0.0,0.0};
+	long double x2[3] = {1.0,0.0,0.0};
+	long double x3[3] = {-1.0,0.0,0.0};
+	long double p1[3] = {1.0,0.0,0.0};
+	long double p2[3] = {0.0,0.0,0.0};
+	long double p3[3] = {1.0,1.0,1.0};
+	*/
 
 	iniState(stato,x1,1,true);
 	iniState(stato,x2,2,true);
@@ -119,8 +129,8 @@ int main(int argc, char const *argv[])
 	FILE* file2 = fopen("data2.txt","w");
 	FILE* file3 = fopen("data3.txt","w");
 	//Campionamento
-	long double h = 1/144.0; //1/144
-	long double T = 144.0;
+	long double h = 1/1000.0; //1/144
+	long double T = 10.0;
 	//Iterazioni
 	long double n = T/h; //8640
 
@@ -139,7 +149,7 @@ int main(int argc, char const *argv[])
 		//vecRKII(stato, func, t, h, 3);
 		vecRK4(stato, func, t, h, 18);
 
-		if(i%10==0)
+		if(0==0)
 		{
 			fprintf(file, "%.20Lf, %.20Lf, %.20Lf\n",stato[0], stato[1], stato[2]);
 			fprintf(file2, "%.20Lf, %.20Lf, %.20Lf\n",stato[3], stato[4], stato[5]);
