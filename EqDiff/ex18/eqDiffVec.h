@@ -71,14 +71,14 @@ void vecRK4(long double* stato, void(*func)(long double*, long double*, long dou
 	//Calcolo l'array con cui faccio lo step successivo per calcolare k2 = func(f+k1h/2)
 	for (int i = 0; i < N; ++i)
 	{
-		temp1[i] = stato[i] + (h/(2.0))*k1[i];
+		temp1[i] = stato[i] + ((h*k1[i]) / 2.0);
 	}
 
 	func(k2,temp1,t + h/2.0); //Calcolo k2
 
 	for (int i = 0; i < N; ++i)
 	{
-		temp1[i] = stato[i] + (k2[i]*h)/(2.0);
+		temp1[i] = stato[i] + ((h*k2[i]) / 2.0);
 	}
 
 	func(k3, temp1, t + h/2.0); //Calcolo k3
@@ -92,7 +92,7 @@ void vecRK4(long double* stato, void(*func)(long double*, long double*, long dou
 
 	for (int i = 0; i < N; ++i)
 	{
-		stato[i]+= (h/(6.0))*(k1[i] + 2*k2[i] + 2*k3[i] + k4[i]);
+		stato[i]+= (h*(k1[i] + 2*k2[i] + 2*k3[i] + k4[i]))/(6.0);
 	}
 
 	return;

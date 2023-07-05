@@ -31,21 +31,25 @@ plt.style.use('_mpl-gallery')
 #fig = plt.figure(layout="constrained")
 plt.tight_layout() #fai in modo che il grafico si centri bene nella figura
 fig = plt.figure(figsize=(30,11))
+
+
+
 ax = fig.add_subplot(projection="3d")
 #ax = plt.figure().add_subplot();
 #fig.set_size_inches(30/2.54, 30/2.54)
 
 
-ax.scatter(x3[0],y3[0],z3[0], color="green", marker="*")
-ax.scatter(x[0],y[0],z[0], color="black")
-ax.scatter(x2[0],y2[0],z2[0], color="red")
+ax.scatter(x3[0],y3[0],z3[0], color="green", marker="o")
+ax.scatter(x[0],y[0],z[0], color="black", marker="o")
+ax.scatter(x2[0],y2[0],z2[0], color="red", marker="o")
 ax.plot(x,y,z, color="black"); 
 ax.plot(x2,y2,z2, color="red");
 ax.plot(x3,y3,z3, color="green");
-#ax.legend(["RK4-"+r'$h=\frac{1}{144}$']);
+ax.legend(["Corpo 3","Corpo 1","Corpo 2"]);
 ax.set_xlabel("x");
 ax.set_ylabel("y");
 ax.set_zlabel("z")
-#ax.set_title("Attrattore di Lorenz - Piano (y,z) - Runge Kutta 4\n[Time=60s], Dati iniziali: [0.45,7,2]");
+fig.suptitle("Problema a 3 corpi gravitazionale: set dati iniziali 1\n h = 0.001 , T = 5s");
+
 
 plt.show()
