@@ -27,10 +27,10 @@ plt.tight_layout() #fai in modo che il grafico si centri bene nella figura
 
 
 ax.plot(t,e, color="black"); 
-ax.legend(["Energia totale del sistema in funzione del tempo"]);
+ax.legend(["E(t)"]);
+ax.set_title("Energia totale del sistema in funzione del tempo - Set dati iniziali 2\n h = 0.001 , T = 10s");
 ax.set_xlabel("t");
 ax.set_ylabel("E(t)");
-
 
 #ax.set_title("Attrattore di Lorenz - Piano (y,z) - Runge Kutta 4\n[Time=60s], Dati iniziali: [0.45,7,2]");
 

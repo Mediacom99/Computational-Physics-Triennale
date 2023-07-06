@@ -39,17 +39,18 @@ ax = fig.add_subplot(projection="3d")
 #fig.set_size_inches(30/2.54, 30/2.54)
 
 
-ax.scatter(x3[0],y3[0],z3[0], color="green", marker="o")
-ax.scatter(x[0],y[0],z[0], color="black", marker="o")
-ax.scatter(x2[0],y2[0],z2[0], color="red", marker="o")
+ax.scatter(x3[0],y3[0],z3[0], color="green", marker="*")
+ax.scatter(x[0],y[0],z[0], color="black", marker="*")
+ax.scatter(x2[0],y2[0],z2[0], color="red", marker="*")
 ax.plot(x,y,z, color="black"); 
 ax.plot(x2,y2,z2, color="red");
 ax.plot(x3,y3,z3, color="green");
-ax.legend(["Corpo 3","Corpo 1","Corpo 2"]);
+ax.legend([r'$\vec{R}_3(t=0)$',r'$\vec{R}_1(t=0)$',
+    r'$\vec{R}_2(t=0)$',r'$\vec{R}_1(t)$',r'$\vec{R}_2(t)$',r'$\vec{R}_3(t)$'], loc="upper right");
 ax.set_xlabel("x");
 ax.set_ylabel("y");
 ax.set_zlabel("z")
-fig.suptitle("Problema a 3 corpi gravitazionale: set dati iniziali 1\n h = 0.001 , T = 5s");
+fig.suptitle("Problema a 3 corpi gravitazionale: set dati iniziali 2\n h = 0.001 , T = 30s");
 
 
 plt.show()
