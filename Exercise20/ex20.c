@@ -40,15 +40,16 @@ int newton(complex(*func)(complex), complex(*dfunc)(complex), complex z, double 
 		f=func(rtn);
 		df = dfunc(rtn);
 		dx = increment(f,df); //f/df
+		//printComplex(dx);
 		rtn = compSub(rtn,dx); //rtn-=dx
 		if(moduleComplex(dx) < xacc) //volendo potresti fare il modulo di rtn
 		{	
-			printComplex(rtn);
 			return k;
 
 		}
 	}
-	exit(EXIT_FAILURE);
+	
+	return 0;
 }
 
 
@@ -57,14 +58,30 @@ int main(int argc, char const *argv[])
 {	
 	FILE* file = fopen("data.txt","w");
 
-	double xacc = powf(10,-5); //epsilon
-	complex z = make(1.2,0.0); //punto iniziale
-	int j = newton(f,df,z,xacc);
-	printf("Tot steps: %d\n",j);
+	//Griglia di punti
+	int N = 2000;
+	double h = 4.0 / N;
 
+
+	double xacc = powf(10,-3); //epsilon
+	complex z = make(-2.0,-2.0); //punto iniziale
 
 	
-
+	for (int i = 0; i < N; ++i)
+	{
+		for (int j = 0; j < N; ++j)
+		{	
+			if (j == N-1)
+			{
+				fprintf(file,"%d\n",newton(f,df,z,xacc));
+				continue;
+			}
+				fprintf(file, "%d,",newton(f,df,z,xacc));
+			z.x += h;
+		}
+		z.x = -2.0;
+		z.y+=h;
+	}
 	
 	fclose(file);
 	return 0;

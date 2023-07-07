@@ -40,7 +40,6 @@ double moduleComplex(complex z) //|a|
 
 void printComplex(complex z)
 {
-	printf("Re[z] = %.10f\n",z.x);
-	printf("Im[z] = %.10f\n",z.y);
+	printf("(%.20f,%.20f)\n",z.x,z.y);
 	return;
 }
