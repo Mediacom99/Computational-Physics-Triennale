@@ -43,7 +43,8 @@ void bracketing(double(*f)(double), double x1, double x2, int n, double* xb1, do
 		if(fc*fp <= 0.0)
 		{
 			xb1[nroot] = x-dx;
-			xb2[nroot++] = x;
+			xb2[nroot] = x;
+			nroot++;
 		}
 		fp=fc;
 	}
